@@ -6,8 +6,8 @@ from ui import UI
 
 class Game:
     # Creación del juego
-    def __init__(self, num_players):
-        self.players = [Player(i, []) for i in range(1, num_players + 1)]
+    def __init__(self):
+        self.players = []
         self.table = Table()
         self.dominoes = [Domino(i, j) for i in range(7) for j in range(i, 7)]
         random.shuffle(self.dominoes)
@@ -45,7 +45,6 @@ class Game:
                 break
             
             UI.display_message("Press Enter to make a move...\n")
-            UI.display_table(self.table)
             
             if len(self.table.tiles) == 0:
                 played_tile = random.choice(current_player.hand)
@@ -55,8 +54,15 @@ class Game:
                     if tile.side1 == self.table.tiles[-1].side2:
                         played_tile = tile
                         break
+                    elif tile.side2 == self.table.tiles[-1].side2:
+                        tile.swap_sides()
+                        played_tile = tile
+                        break
                     elif tile.side2 == self.table.tiles[0].side1:
-                        tile.side1, tile.side2 = tile.side2, tile.side1
+                        played_tile = tile
+                        break
+                    elif tile.side1 == self.table.tiles[0].side1:
+                        tile.swap_sides()
                         played_tile = tile
                         break
             
@@ -70,9 +76,8 @@ class Game:
                     if played_tile.side1 == self.table.tiles[-1].side2:
                         self.table.add_tile(played_tile)
                     else:
-                        played_tile.side1, played_tile.side2 = played_tile.side2, played_tile.side1
                         self.table.add_tile(played_tile)
-            
+                UI.display_table(self.table)
             current_player = self.players[(current_player.player_number) % len(self.players)]
     
     def start(self):
@@ -85,11 +90,11 @@ class Game:
             return
         
         print("Starting game with ",num_players," players . . .\n")
-
+        self.players = [Player(i, []) for i in range(1, num_players + 1)]
         self.deal_tiles()
         self.play()
 
 # Start the game
 if __name__ == "__main__":
-    game = Game(num_players=4)
+    game = Game()
     game.start()
