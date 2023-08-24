@@ -53,6 +53,8 @@ class Game:
                 
             else:
                 played_tile = None
+                players_whithout_move = 0
+                
                 for tile in current_player.hand:
                     if tile.side1 == self.table.tiles[-1].side2:
                         played_tile = tile
@@ -71,6 +73,11 @@ class Game:
             
             if played_tile is None:
                 UI.display_message(f"Player {current_player.player_number} can't play. Press Enter to continue...\n")
+                players_whithout_move += 1
+                
+                if players_whithout_move == len(self.players):
+                    UI.display_message("No more moves available. Game over.\n")
+                    break
                 
             else:
                 current_player.hand.remove(played_tile)
