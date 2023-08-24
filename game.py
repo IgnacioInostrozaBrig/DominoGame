@@ -36,6 +36,7 @@ class Game:
     def play(self):
         # Buscar jugador inicial
         current_player, max_chancho = self.find_starting_player()
+        players_whithout_move = 0
         
         while True:
             UI.display_message("Press Enter to continue...\n")
@@ -101,7 +102,6 @@ class Game:
         UI.display_line()
         
         num_players = None
-        players_whithout_move = 0
         
         while True:
             
