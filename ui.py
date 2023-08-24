@@ -9,7 +9,9 @@ class UI:
     
     @staticmethod
     def display_table(table):
-        print(table)
+        print("┌"+"-"*(len(table.tiles)*6+1), end="┐\n|")
+        print("",table, end=" |\n")
+        print("└"+"-"*(len(table.tiles)*6+1), end="┘\n")
 
     def display_title():
         print('''

@@ -7,4 +7,4 @@ class Domino:
         self.side1, self.side2 = self.side2, self.side1
         
     def __str__(self):
-        return f'[{self.side1};{self.side2}]'
+        return f'[{self.side1}:{self.side2}]'
