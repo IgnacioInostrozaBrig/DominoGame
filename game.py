@@ -49,20 +49,23 @@ class Game:
                 
             else:
                 played_tile = None
-                players_whithout_move = 0
                 
                 for tile in current_player.hand:
                     if tile.side1 == self.table.tiles[-1].side2:
+                        players_whithout_move = 0
                         played_tile = tile
                         break
                     elif tile.side2 == self.table.tiles[-1].side2:
+                        players_whithout_move = 0
                         tile.swap_sides()
                         played_tile = tile
                         break
                     elif tile.side2 == self.table.tiles[0].side1:
+                        players_whithout_move = 0
                         played_tile = tile
                         break
                     elif tile.side1 == self.table.tiles[0].side1:
+                        players_whithout_move = 0
                         tile.swap_sides()
                         played_tile = tile
                         break
