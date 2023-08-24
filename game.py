@@ -101,6 +101,7 @@ class Game:
         UI.display_line()
         
         num_players = None
+        players_whithout_move = 0
         
         while True:
             
