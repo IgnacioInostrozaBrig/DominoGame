@@ -40,11 +40,7 @@ class Game:
         while True:
             UI.display_message("Press Enter to continue...\n")
             UI.display_player(current_player)
-            
-            if len(current_player.hand) == 0:
-                UI.display_message(f"Player {current_player.player_number} wins!\n")
-                break
-            
+
             UI.display_message("Press Enter to make a move...\n")
             
             # Primera jugada con chancho más alto
@@ -90,7 +86,11 @@ class Game:
                         self.table.add_tile(played_tile, 0)
                         
                 UI.display_table(self.table)
-                
+           
+            if len(current_player.hand) == 0:
+                UI.display_message(f"Player {current_player.player_number} wins!\n")
+                break
+
             current_player = self.players[(current_player.player_number) % len(self.players)]
     
     def start(self):
