@@ -28,13 +28,14 @@ class Game:
             for tile in player.hand:
                 if tile.side1 == tile.side2 and tile.side1 > max_double_value:
                     max_double_value = tile.side1
+                    max_chancho = tile
                     starting_player = player
         
-        return starting_player
+        return starting_player, max_chancho
     
     def play(self):
         # Buscar jugador inicial
-        current_player = self.find_starting_player()
+        current_player, max_chancho = self.find_starting_player()
         
         while True:
             UI.display_message("Press Enter to continue...\n")
@@ -46,8 +47,10 @@ class Game:
             
             UI.display_message("Press Enter to make a move...\n")
             
+            # Primera jugada con chancho más alto
             if len(self.table.tiles) == 0:
-                played_tile = random.choice(current_player.hand)
+                played_tile = max_chancho
+                
             else:
                 played_tile = None
                 for tile in current_player.hand:
@@ -68,26 +71,39 @@ class Game:
             
             if played_tile is None:
                 UI.display_message(f"Player {current_player.player_number} can't play. Press Enter to continue...\n")
+                
             else:
                 current_player.hand.remove(played_tile)
                 if len(self.table.tiles) == 0:
-                    self.table.add_tile(played_tile)
+                    self.table.add_tile(played_tile, 0)
                 else:
                     if played_tile.side1 == self.table.tiles[-1].side2:
-                        self.table.add_tile(played_tile)
+                        self.table.add_tile(played_tile, -1)
                     else:
-                        self.table.add_tile(played_tile)
+                        self.table.add_tile(played_tile, 0)
+                        
                 UI.display_table(self.table)
+                
             current_player = self.players[(current_player.player_number) % len(self.players)]
     
     def start(self):
         UI.display_title()
         UI.display_line()
-        num_players = int(input("Welcome, please enter the number of players (2-14): \n"))
         
-        if num_players < 2 or num_players > 14:
-            UI.display_message("Invalid number of players.")
-            return
+        num_players = None
+        
+        while True:
+            
+            try:
+                num_players = int(input("Welcome, please enter the number of players (2-14): \n"))
+                if num_players >= 2 and num_players <= 14:
+                    break
+                else:
+                    UI.display_message("Invalid number of players, Press Enter to try again.\n")
+                    
+            except ValueError:
+                UI.display_message("Invalid number of players, Press Enter to try again.\n")
+        
         
         print("Starting game with ",num_players," players . . .\n")
         self.players = [Player(i, []) for i in range(1, num_players + 1)]
