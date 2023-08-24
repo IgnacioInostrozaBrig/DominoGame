@@ -1,6 +1,6 @@
 # DominoGame
   
-Correr el archivo dentro del directorio principal con el siguiente comando
+Correr el archivo dentro del directorio principal con el siguiente comando:
 
 ```
 python game.py
